@@ -5,17 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.cyanlch.composeeditor.core.common.theme.EditorTheme
-import com.cyanlch.composeeditor.feature.editor.EditorViewModel
-import com.cyanlch.composeeditor.feature.editor.components.HtmlPreviewComponent
-import com.cyanlch.composeeditor.feature.editor.components.RichEditorComponent
-import com.cyanlch.composeeditor.feature.toolbar.components.EditorToolbar
+import androidx.compose.ui.unit.dp
+import com.cyanlch.composeeditor.ui.theme.ComposeEditorTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +18,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         
         setContent {
-            EditorTheme {
+            ComposeEditorTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -38,21 +33,12 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposeEditorApp() {
-    val viewModel: EditorViewModel = viewModel()
-    val editorState by viewModel.editorState.collectAsState()
+    var text by remember { mutableStateOf("") }
     
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { 
-                    Text(
-                        text = if (editorState.title.isNotEmpty()) {
-                            editorState.title
-                        } else {
-                            "Compose Rich Editor"
-                        }
-                    )
-                }
+                title = { Text("Compose Rich Editor") }
             )
         }
     ) { paddingValues ->
@@ -60,42 +46,40 @@ fun ComposeEditorApp() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .padding(16.dp)
         ) {
-            // 툴바
-            EditorToolbar(
-                onFormatAction = { action ->
-                    viewModel.onEvent(com.cyanlch.composeeditor.core.model.EditorEvent.ApplyFormat(action))
-                }
+            Text(
+                text = "Rich Text Editor Example",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 16.dp)
             )
             
-            // 메인 컨텐츠
-            if (editorState.isEditing) {
-                // 편집 모드
-                RichEditorComponent(
-                    viewModel = viewModel,
-                    editorState = editorState,
-                    modifier = Modifier.weight(1f)
-                )
-            } else {
-                // 미리보기 모드
-                HtmlPreviewComponent(
-                    htmlContent = editorState.htmlContent,
-                    modifier = Modifier.weight(1f)
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    placeholder = {
+                        Text("여기에 텍스트를 입력하세요...")
+                    },
+                    label = { Text("에디터") }
                 )
             }
         }
-    }
-    
-    // 초기화
-    LaunchedEffect(Unit) {
-        viewModel.initializeRichTextState()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ComposeEditorAppPreview() {
-    EditorTheme {
+    ComposeEditorTheme {
         ComposeEditorApp()
     }
 }

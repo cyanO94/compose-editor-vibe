@@ -38,7 +38,7 @@ dependencies {
     implementation(project(":core:common"))
     
     implementation(libs.androidx.core.ktx)
-    implementation(libs.compose.rich.editor)
+    implementation(libs.richeditor.compose)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

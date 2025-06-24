@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -21,9 +22,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "ComposeEditor"
 include(":app")
-include(":core:model")
-include(":core:data")
-include(":core:common")
-include(":feature:editor")
-include(":feature:toolbar")
- 
