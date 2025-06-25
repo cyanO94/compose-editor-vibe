@@ -56,6 +56,15 @@ android {
 }
 
 dependencies {
+    // Core modules
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
+    implementation(project(":core:data"))
+    
+    // Feature modules  
+    implementation(project(":feature:editor"))
+    implementation(project(":feature:toolbar"))
+    
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

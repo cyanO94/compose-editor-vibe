@@ -22,3 +22,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "ComposeEditor"
 include(":app")
+include(":feature:editor")
+include(":feature:toolbar")
+include(":core:model")
+include(":core:common")
+include(":core:data")

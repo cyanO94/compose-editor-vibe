@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.cyanlch.composeeditor.core.model.EditorEvent
 import com.cyanlch.composeeditor.core.model.EditorState
 import com.cyanlch.composeeditor.core.model.FormatAction
+import com.mohamedrejeb.richeditor.annotation.ExperimentalRichTextApi
 import com.mohamedrejeb.richeditor.model.RichTextState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -69,6 +70,7 @@ class EditorViewModel : ViewModel() {
         )
     }
     
+    @OptIn(ExperimentalRichTextApi::class)
     private fun applyFormatting(action: FormatAction) {
         viewModelScope.launch {
             when (action) {
