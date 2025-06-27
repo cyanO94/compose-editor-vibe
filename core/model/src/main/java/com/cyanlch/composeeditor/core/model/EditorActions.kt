@@ -25,12 +25,20 @@ sealed class EditorAction {
 }
 
 /**
- * 에디터 상태 변경 이벤트
+ * 에디터 선택 상태
  */
-sealed class EditorEvent {
-    data class FormattingChanged(val state: FormattingState) : EditorEvent()
-    data class TextChanged(val text: String) : EditorEvent()
-    data class SelectionChanged(val start: Int, val end: Int) : EditorEvent()
-    object EditorFocused : EditorEvent()
-    object EditorLostFocus : EditorEvent()
+data class EditorSelection(
+    val start: Int,
+    val end: Int
+) {
+    val length: Int get() = end - start
+    val hasSelection: Boolean get() = length > 0
 }
+
+/**
+ * 에디터 커서 정보
+ */
+data class CursorInfo(
+    val position: Int,
+    val selection: EditorSelection
+)
